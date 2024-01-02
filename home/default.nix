@@ -3,6 +3,7 @@
 {
   imports = [
     ./awesome
+    ./neovim
   ];
 
   home = {
@@ -11,6 +12,8 @@
     stateVersion = "23.11";
     packages = [
       pkgs.neovim
+      pkgs.dmenu
+      pkgs.kitty
     ];
   };
 
