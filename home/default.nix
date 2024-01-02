@@ -9,6 +9,9 @@
     username = "julian";
     homeDirectory = "/home/julian";
     stateVersion = "23.11";
+    packages = [
+      pkgs.neovim
+    ];
   };
 
   nixpkgs.config = {
@@ -21,6 +24,4 @@
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
-
-  system.stateVersion = "23.11";
 }
