@@ -4,6 +4,7 @@
   imports = [
     ./awesome
     ./neovim
+		./kitty
   ];
 
   home = {
@@ -26,13 +27,14 @@
   programs.git.enable = true;
   programs.zsh = {
     enable = true;
-    # histSize = 10000;
-    # histFile = "${config.xdg.dataHome}/zsh/history";
-    # enableCompletion = true;
-    # ohMyZsh = {
-    #   enable = true;
-    #   plugins = [ "jeffreytse/zsh-vi-mode" ];
-    # };
+		initExtra = ''
+			bindkey '^r' history-incremental-search-backward
+		'';
+  	enableCompletion = true;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "jeffreytse/zsh-vi-mode" ];
+    };
   };
 
   # Nicely reload system units when changing configs

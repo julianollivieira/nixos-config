@@ -24,6 +24,21 @@
     pathsToLink = [ "/share/zsh" ];
   };
 
+	fonts = {
+		packages = with pkgs; [
+			(nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+		];
+		fontconfig = {
+			defaultFonts = {
+				serif = [ "JetBrainsMonoNL Nerd Font" ];
+				sansSerif = [ "JetBrainsMonoNL Nerd Font" ];
+				monospace = [ "JetBrainsMonoNL Nerd Font" ];
+			};
+		};
+	};
+
+
+
   # configure kernel and bootloader
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -47,7 +62,7 @@
   networking.hostName = "julian-nixos-desktop"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   time.timeZone = "Europe/Amsterdam";
 

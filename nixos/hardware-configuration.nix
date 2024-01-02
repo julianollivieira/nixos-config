@@ -8,10 +8,34 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+
+	boot = {
+  	blacklistedKernelModules = [ "rtl8xxxu" ];
+  	kernelModules = [ "kvm-amd" ];
+  	# extraModulePackages = with config.boot.kernelPackages; [ rtl88xxau-aircrack ];
+		extraModulePackages = [ config.boot.kernelPackages.rtl88xxau-aircrack ];
+
+		extraModprobeConfig = ''
+			options cfg80211 ieee80211_regdom="SE"
+		'';
+  	# extraModulePackages = with config.boot.kernelPackages; [ rtl8812au ];
+		# extraModprobeConfig = ''
+		#	  options cfg80211 ieee80211_regdom="SE"
+		# '';
+
+		initrd = {
+			availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sr_mod" ];
+			# kernelModules = [ "8812au" ];
+			# kernelModules = [ ];
+		};
+	};
+
+	hardware.wirelessRegulatoryDatabase = true;
+
+  networking.networkmanager = {
+    enable = true;
+    wifi.scanRandMacAddress = false;
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/nixos";
