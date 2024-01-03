@@ -6,16 +6,6 @@ local dpi   = require("beautiful.xresources").apply_dpi
 
 -- theme
 local theme = {
-	fontname = "JetBrainsMono Nerd Font Mono",
-	-- bg_normal = "#0F0F0F",
-	-- fg_normal = "#242424",
-	-- bg_focus = "#2F2F2F",
-	-- fg_focus = "#FFFFFF",
-	-- custom
-	c_font_size = "large",
-	-- bg_lighter = "#2F2F2F",
-	bar = gears.filesystem.get_configuration_dir() .. "icons/bar.png",
-	--
 	fg_normal                                 = "#FFFFFF",
 	fg_focus                                  = "#0099CC",
 	bg_focus                                  = "#303030",
@@ -25,6 +15,10 @@ local theme = {
 	border_width                              = dpi(3),
 	border_normal                             = "#252525",
 	border_focus                              = "#0099CC",
+	-- custom
+	fontname = "JetBrainsMono Nerd Font Mono",
+	c_font_size = "large",
+	bar = gears.filesystem.get_configuration_dir() .. "icons/bar.png",
 	wallpaper = gears.filesystem.get_configuration_dir() .. "wallpaper.png",
 }
 
@@ -40,13 +34,29 @@ local dtwidget = wibox.container.background(dtwidget, theme.bg_focus, gears.shap
 local dtwidget = wibox.container.margin(dtwidget, 0, dpi(padding), dpi(padding), dpi(padding))
 
 -- cpu
--- local cpu = vicious.widgets.cpu
+-- cputext = wibox.widget.textbox("<span font-size='" .. theme.c_font_size .. "' font='" .. theme.fontname .. "'><b>cpu</b></span>")
+-- cpupercentagetext = wibox.widget.textbox("<span font-size='" .. theme.c_font_size .. "' font='" .. theme.fontname .. "'><b>$1 %</b></span>")
+-- local cpupercentagetext = wibox.widget.textbox()
+-- percentagesymboltext = wibox.widget.textbox("<span font-size='" .. theme.c_font_size .. "' font='" .. theme.fontname .. "'><b>%</b></span>")
+
+-- local cpuwidget = wibox.widget { cputext, cpupercentagetext, spacing = 5, layout = wibox.layout.fixed.horizontal }
+local cputext = wibox.widget.textbox()
+local cpuwidget = wibox.container.margin(cputext, dpi(padding * 2), dpi(padding * 2))
+local cpuwidget = wibox.container.background(cpuwidget, theme.bg_focus, gears.shape.rectangle)
+local cpuwidget = wibox.container.margin(cpuwidget, 0, dpi(padding), dpi(padding), dpi(padding))
+
+vicious.register(
+	cputext,
+	vicious.widgets.cpu,
+	"<span font-size='" .. theme.c_font_size .. "' font='" .. theme.fontname .. "'><b>cpu $1%</b></span>",
+	1
+)
 
 function theme.at_screen_connect(s)
     -- quake application
     -- s.quake = lain.util.quake({ app = awful.util.terminal })
 		--
-    gears.wallpaper.maximized(wallpaper, s, true)
+    gears.wallpaper.maximized(theme.wallpaper, s, true)
 
 		-- setup tag table
 		awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
@@ -75,10 +85,6 @@ function theme.at_screen_connect(s)
 		local taglistbg = wibox.container.background(taglistpadded, theme.bg_focus, gears.shape.rectangle)
 		local taglistwidget = wibox.container.margin(taglistbg, dpi(0), dpi(padding), dpi(padding), dpi(padding))
 
-		-- local dtpadded = wibox.container.margin(timeanddatewidget, dpi(padding), dpi(padding), dpi(0), dpi(0))
-		-- local dtbg = wibox.container.background(dtpadded, theme.bg_lighter, gears.shape.rectangle)
-		-- local dtwidget = wibox.container.margin(dtbg, dpi(0), dpi(0), dpi(padding), dpi(padding))
-
 		-- setup top wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(32), bg = theme.bg_normal, fg = theme.fg_normal })
     s.mywibox:setup {
@@ -91,7 +97,7 @@ function theme.at_screen_connect(s)
 				nil,
         {
             layout = wibox.layout.fixed.horizontal,
-						-- cpu,
+						cpuwidget,
 						dtwidget,
             -- datewidget,
 						-- bar,
