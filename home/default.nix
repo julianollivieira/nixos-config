@@ -33,7 +33,6 @@
   	enableCompletion = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "jeffreytse/zsh-vi-mode" ];
     };
   };
 
