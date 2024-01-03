@@ -18,8 +18,9 @@ local theme = {
 local padding = 5
 
 -- text clock
-local textclock = wibox.widget.textclock("<span font='" .. theme.fontname .. "'> </span>%H:%M ")
-local clockbg = wibox.container.background(textclock, theme.bg_lighter, gears.shape.rectangle)
+local textclock = wibox.widget.textclock("<span font='" .. theme.fontname .. "'><b>%H:%M</b></span>")
+local textclockpadded = wibox.container.margin(textclock, dpi(padding), dpi(padding))
+local clockbg = wibox.container.background(textclockpadded, theme.bg_lighter, gears.shape.rectangle)
 local clockwidget = wibox.container.margin(clockbg, dpi(0), dpi(padding), dpi(padding), dpi(padding))
 
 function theme.at_screen_connect(s)
