@@ -87,10 +87,19 @@
       	enable = true;
 				luaModules = with pkgs.luaPackages; [
 					luarocks # is the package manager for Lua modules
+					vicious
 				];
 			};
     };
   };
+
+	virtualisation.docker = {
+		enable = true;
+		rootless = {
+			enable = true;
+			setSocketVariable = true;
+		};
+	};
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -110,7 +119,7 @@
   users.users.julian = {
     isNormalUser = true;
     initialPassword = "somepassword";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
     packages = with pkgs; [
       vim
       git

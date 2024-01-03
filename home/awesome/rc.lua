@@ -49,6 +49,8 @@ end
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "theme.lua")
 beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
+beautiful.useless_gap = 5
+
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "vim"
