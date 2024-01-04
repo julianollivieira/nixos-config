@@ -11,6 +11,8 @@
     auto-optimise-store = true;
   };
 
+	nixpkgs.config.allowUnfree = true;
+
 	# nixpkgs = {
 	#	overlays = [
   #    outputs.overlays.additions
@@ -90,6 +92,8 @@
         defaultSession = "none+awesome";
       };
 
+			videoDrivers = [ "nvidia" ];
+
 			windowManager.awesome = {
       	enable = true;
 				luaModules = with pkgs.luaPackages; [
@@ -146,7 +150,14 @@
     shell = pkgs.zsh;
   };
 
-  programs.zsh.enable = true;
+	programs = {
+		zsh.enable = true;
+		steam = {
+			enable = true;
+			remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+			dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+		};
+	};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

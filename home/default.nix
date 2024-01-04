@@ -48,6 +48,7 @@
 			spotify
 			obsidian
 			tmux
+			discord
     ];
   };
 
