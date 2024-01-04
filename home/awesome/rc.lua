@@ -178,6 +178,27 @@ root.buttons(gears.table.join(
 ))
 -- }}}
 
+local function saved_screenshot(args)
+    local ss = awful.screenshot(args)
+
+    local function notify(self)
+        naughty.notification {
+            title     = self.file_name,
+            message   = "Screenshot saved",
+            icon      = self.surface,
+            icon_size = 128,
+        }
+    end
+
+    if args.auto_save_delay > 0 then
+        ss:connect_signal("file::saved", notify)
+    else
+        notify(ss)
+    end
+
+    return ss
+end
+
 -- {{{ Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -188,6 +209,9 @@ globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+		awful.key({modkey}, "Print",
+            function (c) saved_screenshot { auto_save_delay = 0, client = c } end,
+            {description = "take client screenshot", group = "client"}),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -399,8 +423,11 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
+      properties = {
+										-- border_width = beautiful.border_width,
+                     -- border_color = beautiful.border_normal,
+										 border_width = 0,
+                     border_color = 0,
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
@@ -442,9 +469,9 @@ awful.rules.rules = {
       }, properties = { floating = true }},
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
-    },
+    -- { rule_any = {type = { "normal", "dialog" }
+      -- }, properties = { titlebars_enabled = true }
+    -- },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
