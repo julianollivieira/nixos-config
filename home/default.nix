@@ -49,6 +49,11 @@
 			obsidian
 			tmux
 			discord
+			insomnia
+			beekeeper-studio
+			gcc13
+			nodejs_21
+			yarn
     ];
   };
 
