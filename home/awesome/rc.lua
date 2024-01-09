@@ -494,6 +494,14 @@ client.connect_signal("manage", function (c)
     end
 end)
 
+-- Disable minimized and maximized windows     
+ client.connect_signal("property::minimized", function(c)
+     c.minimized = false
+ end)
+ client.connect_signal("property::maximized", function(c)
+     c.maximized = false
+ end)
+
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar

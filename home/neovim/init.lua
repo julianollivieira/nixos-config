@@ -35,22 +35,24 @@ require("core.lazy").setup({
   { 'rafamadriz/friendly-snippets' },
 
   -- misc
-  { "numToStr/Comment.nvim", lazy = false },
-	-- TODO: https://github.com/JoosepAlviste/nvim-ts-context-commentstring/issues/82
+  { "numToStr/Comment.nvim" },
   { "JoosepAlviste/nvim-ts-context-commentstring" },
 })
 
 require("core.lsp").setup({
 	language_servers = { "tsserver", },
 	null_ls_sources = { "prettierd", },
-	ts_languages = { "javascript", "typescript", "tsx", "json", "html", "css" }
+	ts_languages = { "lua", "javascript", "typescript", "tsx", "json", "html", "css" }
 })
 
 -- setup plugins
-require('Comment').setup { pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook() }
+require('Comment').setup({
+	pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+})
 
 -- configure basic vim settings
 vim.g.mapleader = " "           -- Set leader to <space>
+vim.g.skip_ts_context_commentstring_module = true
 vim.cmd.colorscheme("kanagawa") -- Set the colorscheme
 vim.cmd.set("mouse=")           -- Disable the mouse
 vim.cmd.set("number")           -- Enable line numbering
